@@ -1,0 +1,39 @@
+<button (click)="viewForm(formInfoTemplate.controls)">View</button>
+
+<form [formGroup]="form" (ngSubmit)="addCreds()">
+  <input type="checkbox" formControlName="published"> Published
+  <div *ngIf="form.controls.published.value">
+
+    <input placeholder="Username" formControlName="name" required>
+    <input placeholder="Password" formControlName="pass">
+
+    <h2>Credentials</h2>
+    <button type="submit">Add</button>
+    <br>
+    <ng-container formArrayName="credentials" *ngFor="let control of formInfoTemplate.controls; index as i">
+      <ng-container [formGroupName]="i">
+          <code>Index: {{ i }}</code>
+          <ng-container 
+            *ngTemplateOutlet="formTemplate; context: { 
+              formChild: control,
+              items: control.value,
+              index: i
+              }">
+          </ng-container>
+      </ng-container>
+    </ng-container>
+
+  </div>
+</form>
+
+<ng-template #formTemplate let-formChild="formChild" let-items="items" let-index="index"> 
+  <code> Template: {{ index }}</code>
+  <div [formGroup]="formChild">
+    <label for="username">{{ items.username }}</label>
+    <br>
+    <input id="username" placeholder="Username" formControlName="username" [ngClass]="classForm[index]">
+    <input id="password" placeholder="Password" formControlName="password">
+
+    <button type="button" (click)="addClass(index)">class</button>
+  </div>
+</ng-template>
