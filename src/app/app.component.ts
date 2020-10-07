@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'my-app',
@@ -11,7 +12,10 @@ export class AppComponent implements OnInit  {
   form: FormGroup;
   classForm: string[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private browser: Title,
+    private fb: FormBuilder
+  ) {
     this.form = this.fb.group({
       published: true,
       name: new FormControl('', [Validators.required]),
@@ -21,6 +25,7 @@ export class AppComponent implements OnInit  {
   }
 
   ngOnInit(): void {
+    this.browser.setTitle("Ejemplo FormArray con ng-template");
   }
 
   addCreds() {
